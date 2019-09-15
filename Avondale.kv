@@ -1,0 +1,201 @@
+#: import sm kivy.uix.screenmanager
+#THESE ARE THE COLOUR SCHEME VARIABLES, sets variables which i can call in future
+#:set darkblue (0,0.2,0.4,1)
+#:set lightblue (0.36, 0.607, 0.8353,1)
+#:set red (0.8, 0, 0,1)
+#:set black (0,0,0,1)
+#:set grey (0,6 ,0.6 , 0.6, 1)
+
+
+
+
+#screenmanager
+MyScreenManager:
+	transition: sm.NoTransition() #uses no transition for screen manager
+	LoginScreen:
+	HomeScreen:
+	TimetableScreen:
+
+#----------CUSTOM DEFAULT BEHAVIOURS FOR WIDGETS-------
+<GridLabel>:
+	canvas.after:
+		Line:
+			rectangle: self.x+1,self.y+1,self.width-1,self.height-1
+			#draws a black grid around the rectangle
+<CornerRectangleWidget>:
+	id: colours
+	size_hint_y: 1
+	size_hint_x: 1
+	pos: (50, 150)#positions the widget to the right and up, makes it so i can see the text
+	canvas.before:
+		Color:
+			rgba: self.c #sets colour to the c property of the class
+		Rectangle:
+			pos: self.pos #sets pos to the pos property of the class
+			size: self.size #sets size to the size proeprty of the class
+	canvas.after:
+	#.after so its on top of the coloured rectangle
+		Color:
+			rgba: (0,0,0,1)#sets colour of line to balack
+		Line:
+			rectangle: self.x+1,self.y+1,self.width-1,self.height-1 #drawsw line around the square
+
+
+<Button>:
+	size_hint_y: None	#sets size_hint_y to None for all images, this alows me to size them however i want 
+	size_hint_x: None	#sets size_hint_x to None for all images, this alows me to size them however i want
+	font: "font" #sets the font to Serenity, which is known as "font"
+	background_normal: "Assets/ButtonBg.jpg" #sets all backgrounds of buttons to a white square, this makes it so i can change the colours easily
+<Label>:
+	font_name: 'Serenity'#sets font to Serenity
+	border: (0,0,0,0)
+<Image>:
+	size_hint_y: None #sets size_hint_y to None for all images, this alows me to size them however i want
+	size_hint_x: None #sets size_hint_x to None for all images, this alows me to size them however i want
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
+#-----------------------------------SCREENS--------------------------------------
+#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
+
+<LoginScreen>:  #LOGIN SCREEN
+	name: 'login' #gives the screen the name "first"
+	FloatLayout: #Creates a FloatLayout
+		
+		Image:
+			id: banner
+			source: "Assets/AvondaleAppBanner1.png"#banner with the AvondaleAppBanner1 as source
+			height: root.height/5
+			width: root.width
+			allow_stretch: True
+			keep_ratio: False
+			pos: 0,root.height-self.height
+		TextInput:
+			id: StudentNum
+			focus: True
+			border: (7,7,7,7)
+			multiline: False
+			padding_x: 10
+			text: "Insert Student Number"
+			width: (root.width/3)
+			height: (root.height/15)
+			pos: ((root.width/3)*2)-(self.width/2),(root.height/2)
+			size_hint_y: None
+			size_hint_x: None
+			font_size: root.width/35
+		Button:
+			id: Login
+			width: (root.width/3)
+			height: (root.height/8)
+			pos: (((root.width/3)*2)-(StudentNum.width/2)),((root.height/2)-(self.height*1.5))
+			text: "LOGIN" #sets text to login
+			halign: "left" #aligns it to the left
+			font_size: root.height/10
+			on_release: root.Login(StudentNum.text, "studentData.csv")#calls the login function with the text input text as a paramter, combined with the csv file with the studentrs datra
+			background_color: lightblue
+		Label:
+			text: "Student Number:" #sets text to Student Number
+			color: black
+			pos: ((root.width/2)-(self.width/2)-(StudentNum.width/1.5)), (root.height/24) #positions it dynamically 
+			font_size: root.width/17.143
+			font_name: 'Serenity' #sets font to serenity
+		Label:
+			id: Warning
+			height: (root.height/5)
+			width: root.width/3
+			pos: (root.width/200),(root.height/8)
+			text: '' #text default set to ''
+			color: (1,0,0,0)
+			font_size: root.width/17.143
+
+<HomeScreen>: #home screen
+	name: 'home'
+	FloatLayout:
+		Label:
+			id: Welcome
+			height: (root.height/5)
+			width: root.width/3
+			pos: (root.width/200),(root.height/2.5)
+			text: "[color=000000]Welcome[/color]"
+			font_size: root.width/18
+			markup: True
+		Label:
+			id: Name
+			size:(root.width/5.5),(root.width/3.5)
+			pos:(root.width/200),(root.height/3.5)
+			text: ''
+			color: 0,0,0,1
+			font_size: root.width/18
+
+		Button:
+			id: Timetable
+			height: (root.height/5)
+			width: root.width/2+ self.width/4
+			pos: (root.width/2)-(self.width/2), ((root.height/2)+(self.height/4))
+			text: "[color=#ffffff]TIMETABLE[/color]"
+			markup: True
+			size: self.texture_size
+			font_size: root.width/8
+			padding_y: 10
+			background_color: lightblue
+			on_release: app.root.current = 'timetableA'
+		Button:
+			id: Help
+			height: (root.height/5)
+			width: root.width/2+ self.width/4
+			pos: (root.width/2)-(self.width/2), ((root.height/2)-(self.width/4))
+			text: "[color=#ffffff]HELP[/color]" #makes text = "Help me" in a white colour
+			markup: True #allows me to markup the text
+			size: self.texture_size
+			font_size: root.width/8
+			padding_y: 10
+			background_color: lightblue
+			on_press: root.openHelpPopup()
+		ImageButton:
+			id: logo
+			source: "Assets/AvondaleLogoIcon.jpg"
+			width:  0.19045*root.width#(0.13 * 879)/600   Since i want a responsive design, the ratio of the image i want is 0.13 of the original width 
+					#and height(879 and 870), and then divide that width by the width of the base window(800) to get the overall ratio 
+			height: 0.141375*root.height #same principle as the width, making it responsive to different dimensions
+			pos: 0-(self.width/4),0
+			on_press: app.root.current = 'login'
+
+
+
+
+<TimetableScreen>
+	name: 'timetableA'
+	GridLayout:
+		width: root.width
+		height: root.height
+		id: grid
+		cols:6
+		size_hint_x: 1
+		size_hint_y: 1
+		#technically this all could be deleted below, but i kept it as reference for future work
+		GridLayout:
+			cols: 2
+			GridLayout:
+				rows: 2
+				padding_y: 0
+				Label:
+					text: "HOME"#sets text to home
+					color: black #sets colour to black
+					pos_hint_x: 1
+					pos_hint_y: 1
+					size_hint_y: 1
+					size_hint_x: 1
+				ImageButton:
+					source: "Assets/AvondaleLogoIcon.jpg" #imageButton of Icon
+					pos_hint_x: 1
+					pos_hint_y: 1
+					size_hint_y: 1
+					size_hint_x: 1
+			ImageButton:
+				id: timetableImage1
+				source: "Assets/WeekA_Icon.jpg"
+				pos_hint_x: 1
+				pos_hint_y: 1
+				size_hint_y: 1
+				size_hint_x: 1
+				on_press: root.sourceSwitch(self.source) #swtiches the source of the image

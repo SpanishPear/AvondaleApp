@@ -1,0 +1,10 @@
+1,Chapel,line1,Maths,line2,line2,line3
+2,line1,line4,English,line4,Biblical-Studies,line2
+3,Maths,line2,line2,English,Sport,Sport
+4,Biblical-Studies,Service,Maths,line2,English,Maths
+5,line3,line4,line4,English,line1,line1
+6,Chapel,line3,line3,Maths,line1,English
+7,line2,line3,English,line4,Biblical-Studies,Maths
+8,Maths,English,line3,line3,Sport,Sport
+9,Biblical-Studies,English,line1,line4,line3,English
+10,Maths,line2,line4,line4,line1,line1
